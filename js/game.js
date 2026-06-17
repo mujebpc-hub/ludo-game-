@@ -1,8 +1,8 @@
-function nextTurn(){
+function nextTurn() {
 currentPlayer++;
 
 ```
-if(currentPlayer >= players.length){
+if (currentPlayer >= players.length) {
     currentPlayer = 0;
 }
 
@@ -25,7 +25,6 @@ checkWin(currentPlayer);
 console.log(players[currentPlayer].name + " rolled " + diceValue);
 
 nextTurn();
-
 updateTurnUI();
 ```
 
