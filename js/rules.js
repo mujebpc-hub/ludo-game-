@@ -4,13 +4,17 @@ const player2 = players[1].tokens[0];
 
 ```
 if(player1.position === player2.position && player1.position !== 0){
+
     if(currentPlayer === 0){
         player2.position = 0;
+        playKillSound();
         console.log("Player 2 token killed!");
     }else{
         player1.position = 0;
+        playKillSound();
         console.log("Player 1 token killed!");
     }
+
 }
 ```
 
@@ -22,9 +26,9 @@ const token = player.tokens[0];
 
 ```
 if(token.position >= 50){
+    playWinSound();
     alert(player.name + " Wins!");
 }
 ```
 
 }
-
