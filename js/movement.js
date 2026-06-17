@@ -15,8 +15,7 @@ let currentTop = parseInt(tokenElement.style.top || 0);
 // Temporary movement: move right
 currentLeft += diceValue * 30;
 
-tokenElement.style.left = currentLeft + "px";
-tokenElement.style.top = currentTop + "px";
+animateToken(tokenElement, currentLeft, currentTop);
 ```
 
 }
