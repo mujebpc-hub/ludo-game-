@@ -13,9 +13,12 @@ console.log("Current Turn:", players[currentPlayer].name);
 
 dice.onclick = () => {
 rollDice();
+playRollSound();
 
 ```
 moveToken(currentPlayer);
+playMoveSound();
+
 checkKill();
 checkWin(currentPlayer);
 
