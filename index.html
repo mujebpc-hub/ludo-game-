@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo Game</title>
+
+```
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/board.css">
+<link rel="stylesheet" href="css/animation.css">
+<link rel="stylesheet" href="css/responsive.css">
+```
+
+</head>
+<body>
+
+```
+<!-- Menu Screen -->
+<div id="menu-screen">
+    <h1>LUDO GAME</h1>
+
+    <button id="play-btn">PLAY</button>
+    <button id="bot-btn">VS BOT</button>
+    <button id="online-btn">ONLINE</button>
+</div>
+
+<!-- Game Screen -->
+<div id="game-screen" class="hidden">
+
+    <!-- Top Player -->
+    <div class="player top-player">
+        <img src="assets/images/avatars/default.png" alt="Player">
+        <span>Player 2</span>
+    </div>
+
+    <!-- Board -->
+    <div id="board-container">
+        <img id="board" src="assets/images/board.png" alt="Ludo Board">
+
+        <div id="tokens-layer"></div>
+
+        <!-- Dice -->
+        <div id="dice-box">
+            <img id="dice" src="assets/images/dice/dice-1.png" alt="Dice">
+        </div>
+    </div>
+
+    <!-- Bottom Player -->
+    <div class="player bottom-player">
+        <img src="assets/images/avatars/default.png" alt="Player">
+        <span>Player 1</span>
+    </div>
+
+    <!-- Back Button -->
+    <button id="back-btn">BACK</button>
+
+</div>
+
+<!-- JS Files -->
+<script src="js/menu.js"></script>
+<script src="js/player.js"></script>
+<script src="js/board.js"></script>
+<script src="js/dice.js"></script>
+<script src="js/game.js"></script>
+<script src="js/movement.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/bot.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/animation.js"></script>
+<script src="js/sound.js"></script>
+```
+
+</body>
+</html>
 
