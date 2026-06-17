@@ -16,6 +16,8 @@ rollDice();
 
 ```
 moveToken(currentPlayer);
+checkKill();
+checkWin(currentPlayer);
 
 console.log(players[currentPlayer].name + " rolled " + diceValue);
 
