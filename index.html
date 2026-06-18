@@ -1,78 +1,1166 @@
-<!DOCTYPE html>
-
+===== index.html =====
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ludo Game</title>
-
-```
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/menu.css">
-<link rel="stylesheet" href="css/board.css">
-<link rel="stylesheet" href="css/animation.css">
-<link rel="stylesheet" href="css/responsive.css">
-```
-
-</head>
-<body>
-
-```
-<!-- Menu Screen -->
-<div id="menu-screen">
-    <h1>LUDO GAME</h1>
-
-    <button id="play-btn">PLAY</button>
-    <button id="bot-btn">VS BOT</button>
-    <button id="online-btn">ONLINE</button>
-</div>
-
-<!-- Game Screen -->
-<div id="game-screen" class="hidden">
-
-    <!-- Top Player -->
-    <div class="player top-player">
-        <img src="assets/images/avatars/default.png" alt="Player">
-        <span>Player 2</span>
-    </div>
-
-    <!-- Board -->
-    <div id="board-container">
-        <img id="board" src="assets/images/board.png" alt="Ludo Board">
-
-        <div id="tokens-layer"></div>
-
-        <!-- Dice -->
-        <div id="dice-box">
-            <img id="dice" src="assets/images/dice/dice-1.png" alt="Dice">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ludgo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main id="app" class="app">
+      <section id="menu-screen" class="screen menu-screen is-active">
+        <div class="brand">
+          <span class="brand-mark">L</span>
+          <div>
+            <h1>Ludgo</h1>
+            <p>Fast local Ludo for 2-4 players</p>
+          </div>
         </div>
-    </div>
 
-    <!-- Bottom Player -->
-    <div class="player bottom-player">
-        <img src="assets/images/avatars/default.png" alt="Player">
-        <span>Player 1</span>
-    </div>
+        <div class="menu-panel">
+          <button id="play-local" class="menu-btn primary">Local Match</button>
+          <button id="play-bots" class="menu-btn">Play With Bots</button>
+          <label class="select-row">
+            <span>Players</span>
+            <select id="player-count">
+              <option value="2">2 Players</option>
+              <option value="3">3 Players</option>
+              <option value="4" selected>4 Players</option>
+            </select>
+          </label>
+        </div>
+      </section>
 
-    <!-- Back Button -->
-    <button id="back-btn">BACK</button>
+      <section id="game-screen" class="screen game-screen">
+        <header class="topbar">
+          <button id="back-menu" class="icon-btn" aria-label="Back to menu">←</button>
+          <div class="match-title">
+            <strong>Ludgo Match</strong>
+            <span id="status-text">Roll dice to begin</span>
+          </div>
+          <button id="new-game" class="small-btn">New</button>
+        </header>
 
-</div>
+        <section class="players" id="players-panel"></section>
 
-<!-- JS Files -->
-<script src="js/menu.js"></script>
-<script src="js/player.js"></script>
-<script src="js/board.js"></script>
-<script src="js/dice.js"></script>
-<script src="js/game.js"></script>
-<script src="js/movement.js"></script>
-<script src="js/rules.js"></script>
-<script src="js/bot.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/animation.js"></script>
-<script src="js/sound.js"></script>
-```
+        <section class="board-wrap">
+          <div id="board" class="board" aria-label="Ludo board"></div>
+        </section>
 
-</body>
+        <section class="controls">
+          <div id="dice" class="dice" role="button" tabindex="0" aria-label="Roll dice">?</div>
+          <button id="roll-btn" class="roll-btn">Roll</button>
+          <button id="skip-btn" class="small-btn">Skip</button>
+        </section>
+
+        <div id="winner-modal" class="modal" aria-hidden="true">
+          <div class="modal-card">
+            <h2 id="winner-title">Winner</h2>
+            <button id="winner-new" class="menu-btn primary">Play Again</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./script.js"></script>
+  </body>
 </html>
 
+===== style.css =====
+@import url("./css/main.css");
+@import url("./css/menu.css");
+@import url("./css/board.css");
+@import url("./css/animation.css");
+@import url("./css/responsive.css");
+
+===== script.js =====
+import { LudoGame } from "./js/game.js";
+
+const game = new LudoGame();
+game.init();
+
+window.ludgo = game;
+
+===== README.md =====
+# Ludgo
+
+A GitHub Pages friendly Ludo game built with plain HTML, CSS, and JavaScript modules.
+
+## Run
+
+Open `index.html` from a static server, or publish this folder with GitHub Pages.
+
+For local testing:
+
+```bash
+npx serve .
+```
+
+## Optional Online Server
+
+GitHub Pages cannot run Node.js servers. If you want online rooms, deploy the `server/`
+folder separately on Render, Railway, Fly.io, or a VPS.
+
+```bash
+cd server
+npm install
+npm start
+```
+
+## Files
+
+- `index.html` loads the app shell.
+- `script.js` starts the game.
+- `js/game.js` controls the match.
+- `js/rules.js`, `js/movement.js`, and `js/board.js` contain the Ludo logic.
+- `css/*.css` handles layout, board, menu, animation, and mobile styling.
+
+Sound/image assets are optional. If the files under `assets/` are missing, the game still works with CSS-rendered board, dice, and tokens.
+
+===== LICENSE =====
+MIT License
+
+Copyright (c) 2026
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===== js/game.js =====
+import { COLORS } from "./board.js";
+import { chooseBotToken } from "./bot.js";
+import { Dice } from "./dice.js";
+import { markMoved } from "./animation.js";
+import { Menu } from "./menu.js";
+import { moveToken } from "./movement.js";
+import { createPlayers } from "./player.js";
+import { movableTokens, hasWon } from "./rules.js";
+import { Sound } from "./sound.js";
+import { UI } from "./ui.js";
+
+export class LudoGame {
+  constructor() {
+    this.players = [];
+    this.turn = 0;
+    this.awaitingMove = false;
+    this.botMode = false;
+    this.dice = new Dice(document.querySelector("#dice"));
+    this.sound = new Sound();
+    this.ui = new UI(this);
+    this.menu = new Menu((count, botMode) => this.start(count, botMode));
+  }
+
+  init() {
+    this.ui.buildBoard();
+    this.menu.init();
+    document.querySelector("#roll-btn").addEventListener("click", () => this.roll());
+    document.querySelector("#dice").addEventListener("click", () => this.roll());
+    document.querySelector("#dice").addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") this.roll();
+    });
+    document.querySelector("#skip-btn").addEventListener("click", () => this.endTurn());
+    document.querySelector("#new-game").addEventListener("click", () => this.start(this.players.length || 4, this.botMode));
+    document.querySelector("#winner-new").addEventListener("click", () => this.start(this.players.length || 4, this.botMode));
+  }
+
+  start(count = 4, botMode = false) {
+    this.players = createPlayers(COLORS.slice(0, count), botMode);
+    this.turn = 0;
+    this.awaitingMove = false;
+    this.botMode = botMode;
+    this.dice.reset();
+    this.ui.hideWinner();
+    this.ui.render();
+    this.maybeBotTurn();
+  }
+
+  currentPlayer() {
+    return this.players[this.turn];
+  }
+
+  roll() {
+    if (!this.players.length || this.awaitingMove) return;
+    const player = this.currentPlayer();
+    if (player.isBot) return;
+    this.performRoll();
+  }
+
+  performRoll() {
+    const player = this.currentPlayer();
+    const value = this.dice.roll();
+    this.sound.play("roll");
+    const moves = movableTokens(player, value);
+    this.awaitingMove = moves.length > 0;
+    this.ui.status.textContent = moves.length ? `${player.name} rolled ${value}` : `${player.name} has no move`;
+    this.ui.renderTokens();
+    if (!moves.length) setTimeout(() => this.endTurn(), 700);
+    if (player.isBot && moves.length) setTimeout(() => this.botMove(), 700);
+  }
+
+  selectToken(playerId, tokenId) {
+    const player = this.currentPlayer();
+    if (!this.awaitingMove || player.id !== playerId || player.isBot) return;
+    const token = player.tokens[tokenId];
+    if (!movableTokens(player, this.dice.value).includes(token)) return;
+    this.applyMove(player, token);
+  }
+
+  botMove() {
+    const player = this.currentPlayer();
+    const token = chooseBotToken(player, this.dice.value, this.players);
+    if (!token) return this.endTurn();
+    this.applyMove(player, token);
+  }
+
+  applyMove(player, token) {
+    const result = moveToken(this.players, player, token, this.dice.value);
+    this.awaitingMove = false;
+    this.sound.play(result.captured ? "kill" : "move");
+    this.ui.render();
+    markMoved(`${player.color}-${token.id}`);
+
+    if (hasWon(player)) {
+      this.sound.play("win");
+      this.ui.showWinner(player);
+      return;
+    }
+
+    if (this.dice.value === 6 || result.captured || result.finished) {
+      this.dice.reset();
+      this.ui.status.textContent = `${player.name} gets another turn`;
+      setTimeout(() => this.maybeBotTurn(), 650);
+      return;
+    }
+
+    setTimeout(() => this.endTurn(), 450);
+  }
+
+  endTurn() {
+    if (!this.players.length) return;
+    this.awaitingMove = false;
+    this.dice.reset();
+    this.turn = (this.turn + 1) % this.players.length;
+    this.ui.render();
+    this.maybeBotTurn();
+  }
+
+  maybeBotTurn() {
+    const player = this.currentPlayer();
+    if (player?.isBot) setTimeout(() => this.performRoll(), 800);
+  }
+}
+
+===== js/menu.js =====
+export class Menu {
+  constructor(onStart) {
+    this.onStart = onStart;
+    this.menuScreen = document.querySelector("#menu-screen");
+    this.gameScreen = document.querySelector("#game-screen");
+    this.playerCount = document.querySelector("#player-count");
+  }
+
+  init() {
+    document.querySelector("#play-local").addEventListener("click", () => this.start(false));
+    document.querySelector("#play-bots").addEventListener("click", () => this.start(true));
+    document.querySelector("#back-menu").addEventListener("click", () => this.showMenu());
+  }
+
+  start(botMode) {
+    this.showGame();
+    this.onStart(Number(this.playerCount.value), botMode);
+  }
+
+  showMenu() {
+    this.menuScreen.classList.add("is-active");
+    this.gameScreen.classList.remove("is-active");
+  }
+
+  showGame() {
+    this.menuScreen.classList.remove("is-active");
+    this.gameScreen.classList.add("is-active");
+  }
+}
+
+===== js/dice.js =====
+export class Dice {
+  constructor(element) {
+    this.element = element;
+    this.value = 0;
+  }
+
+  roll() {
+    this.value = Math.floor(Math.random() * 6) + 1;
+    this.element.textContent = String(this.value);
+    this.element.classList.remove("is-rolling");
+    void this.element.offsetWidth;
+    this.element.classList.add("is-rolling");
+    return this.value;
+  }
+
+  reset() {
+    this.value = 0;
+    this.element.textContent = "?";
+  }
+}
+
+===== js/player.js =====
+export function createPlayers(colors, botMode) {
+  return colors.map((color, index) => ({
+    id: index,
+    color,
+    name: botMode && index > 0 ? `Bot ${index}` : `Player ${index + 1}`,
+    isBot: Boolean(botMode && index > 0),
+    tokens: Array.from({ length: 4 }, (_, id) => ({
+      id,
+      steps: -1,
+      finished: false,
+    })),
+  }));
+}
+
+export function finishedCount(player) {
+  return player.tokens.filter((token) => token.finished).length;
+}
+
+===== js/board.js =====
+export const COLORS = ["red", "blue", "yellow", "green"];
+
+export const START_INDEX = {
+  red: 0,
+  blue: 13,
+  yellow: 26,
+  green: 39,
+};
+
+export const SAFE_INDEXES = new Set([0, 8, 13, 21, 26, 34, 39, 47]);
+
+export const COMMON_PATH = [
+  [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [5, 6], [4, 6], [3, 6], [2, 6], [1, 6], [0, 6], [0, 7], [0, 8],
+  [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 9], [6, 10], [6, 11], [6, 12], [6, 13], [6, 14], [7, 14], [8, 14],
+  [8, 13], [8, 12], [8, 11], [8, 10], [8, 9], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [14, 7], [14, 6],
+  [13, 6], [12, 6], [11, 6], [10, 6], [9, 6], [8, 5], [8, 4], [8, 3], [8, 2], [8, 1], [8, 0], [7, 0], [6, 0],
+];
+
+export const HOME_PATH = {
+  red: [[7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6]],
+  blue: [[1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7]],
+  yellow: [[7, 13], [7, 12], [7, 11], [7, 10], [7, 9], [7, 8]],
+  green: [[13, 7], [12, 7], [11, 7], [10, 7], [9, 7], [8, 7]],
+};
+
+export const YARDS = {
+  red: { area: [0, 0, 5, 5], nests: [[1, 1], [1, 4], [4, 1], [4, 4]] },
+  blue: { area: [0, 9, 5, 14], nests: [[1, 10], [1, 13], [4, 10], [4, 13]] },
+  yellow: { area: [9, 9, 14, 14], nests: [[10, 10], [10, 13], [13, 10], [13, 13]] },
+  green: { area: [9, 0, 14, 5], nests: [[10, 1], [10, 4], [13, 1], [13, 4]] },
+};
+
+export function keyOf(row, col) {
+  return `${row}-${col}`;
+}
+
+export function getTokenCoord(token, color) {
+  if (token.finished) return [7, 7];
+  if (token.steps === -1) return YARDS[color].nests[token.id];
+  if (token.steps >= 51) return HOME_PATH[color][token.steps - 51];
+  const pathIndex = (START_INDEX[color] + token.steps) % COMMON_PATH.length;
+  return COMMON_PATH[pathIndex];
+}
+
+export function isSafeStep(step, color) {
+  if (step < 0 || step >= 51) return true;
+  return SAFE_INDEXES.has((START_INDEX[color] + step) % COMMON_PATH.length);
+}
+
+===== js/movement.js =====
+import { findCaptures } from "./rules.js";
+
+export function moveToken(players, player, token, dice) {
+  if (token.steps === -1) {
+    token.steps = 0;
+  } else {
+    token.steps += dice;
+  }
+
+  if (token.steps === 56) {
+    token.finished = true;
+  }
+
+  const captures = findCaptures(players, player, token);
+  for (const capture of captures) {
+    capture.token.steps = -1;
+    capture.token.finished = false;
+  }
+
+  return {
+    captured: captures.length > 0,
+    finished: token.finished,
+  };
+}
+
+===== js/rules.js =====
+import { getTokenCoord, isSafeStep } from "./board.js";
+
+export function canMove(token, dice) {
+  if (token.finished) return false;
+  if (token.steps === -1) return dice === 6;
+  return token.steps + dice <= 56;
+}
+
+export function movableTokens(player, dice) {
+  if (!dice) return [];
+  return player.tokens.filter((token) => canMove(token, dice));
+}
+
+export function hasWon(player) {
+  return player.tokens.every((token) => token.finished);
+}
+
+export function findCaptures(players, movingPlayer, movedToken) {
+  if (movedToken.steps < 0 || movedToken.steps >= 51) return [];
+  if (isSafeStep(movedToken.steps, movingPlayer.color)) return [];
+  const [row, col] = getTokenCoord(movedToken, movingPlayer.color);
+  const captures = [];
+
+  for (const player of players) {
+    if (player.id === movingPlayer.id) continue;
+    for (const token of player.tokens) {
+      if (token.finished || token.steps < 0 || token.steps >= 51) continue;
+      const [enemyRow, enemyCol] = getTokenCoord(token, player.color);
+      if (enemyRow === row && enemyCol === col) captures.push({ player, token });
+    }
+  }
+
+  return captures;
+}
+
+===== js/bot.js =====
+import { movableTokens } from "./rules.js";
+
+export function chooseBotToken(player, dice, players) {
+  const tokens = movableTokens(player, dice);
+  if (!tokens.length) return null;
+
+  const finish = tokens.find((token) => token.steps !== -1 && token.steps + dice === 56);
+  if (finish) return finish;
+
+  const entry = tokens.find((token) => token.steps === -1);
+  if (dice === 6 && entry) return entry;
+
+  return tokens
+    .map((token) => ({ token, score: scoreMove(player, token, dice, players) }))
+    .sort((a, b) => b.score - a.score)[0].token;
+}
+
+function scoreMove(player, token, dice, players) {
+  let next = token.steps === -1 ? 0 : token.steps + dice;
+  let score = next;
+  if (next >= 51) score += 20;
+  for (const other of players) {
+    if (other.id === player.id) continue;
+    for (const enemy of other.tokens) {
+      if (enemy.steps >= 0 && enemy.steps < 51) score += 1;
+    }
+  }
+  return score;
+}
+
+===== js/ui.js =====
+import { COLORS, COMMON_PATH, HOME_PATH, SAFE_INDEXES, YARDS, getTokenCoord, keyOf } from "./board.js";
+import { finishedCount } from "./player.js";
+import { movableTokens } from "./rules.js";
+
+export class UI {
+  constructor(game) {
+    this.game = game;
+    this.board = document.querySelector("#board");
+    this.playersPanel = document.querySelector("#players-panel");
+    this.status = document.querySelector("#status-text");
+    this.modal = document.querySelector("#winner-modal");
+    this.winnerTitle = document.querySelector("#winner-title");
+  }
+
+  buildBoard() {
+    this.board.innerHTML = "";
+    const pathKeys = new Map(COMMON_PATH.map(([r, c], index) => [keyOf(r, c), { index }]));
+    const homeKeys = new Map();
+    for (const color of COLORS) {
+      for (const [r, c] of HOME_PATH[color]) homeKeys.set(keyOf(r, c), color);
+    }
+
+    for (let row = 0; row < 15; row += 1) {
+      for (let col = 0; col < 15; col += 1) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.dataset.key = keyOf(row, col);
+
+        const yardColor = this.getYardColor(row, col);
+        const homeColor = homeKeys.get(keyOf(row, col));
+        const path = pathKeys.get(keyOf(row, col));
+
+        if (yardColor) cell.classList.add("yard", yardColor);
+        if (homeColor) cell.classList.add("home", homeColor);
+        if (path) {
+          cell.classList.add("path");
+          if (SAFE_INDEXES.has(path.index)) cell.classList.add("safe");
+        }
+        if (row >= 6 && row <= 8 && col >= 6 && col <= 8) cell.classList.add("center");
+        if (this.isNest(row, col)) cell.innerHTML = '<span class="nest"></span>';
+
+        const stack = document.createElement("div");
+        stack.className = "token-stack";
+        cell.appendChild(stack);
+        this.board.appendChild(cell);
+      }
+    }
+  }
+
+  render() {
+    this.renderPlayers();
+    this.renderTokens();
+    const player = this.game.currentPlayer();
+    this.status.textContent = `${player.name}'s turn`;
+  }
+
+  renderPlayers() {
+    this.playersPanel.innerHTML = this.game.players
+      .map((player, index) => `
+        <article class="player-card ${index === this.game.turn ? "is-active" : ""}" style="color: var(--${player.color})">
+          <strong>${player.name}<span>${player.isBot ? "BOT" : "YOU"}</span></strong>
+          <span class="score">${finishedCount(player)} / 4 home</span>
+        </article>
+      `)
+      .join("");
+  }
+
+  renderTokens() {
+    this.board.querySelectorAll(".token").forEach((node) => node.remove());
+    const dice = this.game.dice.value;
+    const active = this.game.currentPlayer();
+    const movable = new Set(movableTokens(active, dice).map((token) => `${active.color}-${token.id}`));
+
+    for (const player of this.game.players) {
+      for (const token of player.tokens) {
+        const [row, col] = getTokenCoord(token, player.color);
+        const stack = this.board.querySelector(`[data-key="${keyOf(row, col)}"] .token-stack`);
+        const node = document.createElement("button");
+        node.className = `token ${player.color}`;
+        node.dataset.token = `${player.color}-${token.id}`;
+        node.ariaLabel = `${player.name} token ${token.id + 1}`;
+        if (player.id === active.id && movable.has(`${player.color}-${token.id}`)) node.classList.add("can-move");
+        node.addEventListener("click", () => this.game.selectToken(player.id, token.id));
+        stack.appendChild(node);
+      }
+    }
+  }
+
+  showWinner(player) {
+    this.winnerTitle.textContent = `${player.name} wins!`;
+    this.modal.classList.add("is-open");
+    this.modal.setAttribute("aria-hidden", "false");
+  }
+
+  hideWinner() {
+    this.modal.classList.remove("is-open");
+    this.modal.setAttribute("aria-hidden", "true");
+  }
+
+  getYardColor(row, col) {
+    for (const [color, yard] of Object.entries(YARDS)) {
+      const [r1, c1, r2, c2] = yard.area;
+      if (row >= r1 && row <= r2 && col >= c1 && col <= c2) return color;
+    }
+    return null;
+  }
+
+  isNest(row, col) {
+    return Object.values(YARDS).some((yard) => yard.nests.some(([r, c]) => r === row && c === col));
+  }
+}
+
+===== js/animation.js =====
+export function markMoved(tokenId) {
+  requestAnimationFrame(() => {
+    const node = document.querySelector(`[data-token="${tokenId}"]`);
+    if (!node) return;
+    node.classList.add("just-moved");
+    setTimeout(() => node.classList.remove("just-moved"), 280);
+  });
+}
+
+===== js/sound.js =====
+const files = {
+  roll: "./assets/sounds/roll.mp3",
+  move: "./assets/sounds/move.mp3",
+  kill: "./assets/sounds/kill.mp3",
+  win: "./assets/sounds/win.mp3",
+  click: "./assets/sounds/click.mp3",
+};
+
+export class Sound {
+  constructor() {
+    this.enabled = true;
+    this.cache = new Map();
+  }
+
+  play(name) {
+    if (!this.enabled || !files[name]) return;
+    try {
+      let audio = this.cache.get(name);
+      if (!audio) {
+        audio = new Audio(files[name]);
+        audio.volume = 0.45;
+        this.cache.set(name, audio);
+      }
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    } catch {
+      // Missing sound assets should not stop the game.
+    }
+  }
+}
+
+===== css/main.css =====
+:root {
+  --bg: #17202a;
+  --panel: #f8fafc;
+  --ink: #162033;
+  --muted: #687386;
+  --line: #d7deea;
+  --red: #e33e4f;
+  --blue: #2773df;
+  --green: #22a66a;
+  --yellow: #f2b632;
+  --shadow: 0 18px 42px rgba(0, 0, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    linear-gradient(135deg, rgba(227, 62, 79, 0.16), transparent 30%),
+    linear-gradient(225deg, rgba(34, 166, 106, 0.18), transparent 32%),
+    var(--bg);
+}
+
+button,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+}
+
+.screen.is-active {
+  display: grid;
+}
+
+.game-screen {
+  grid-template-rows: auto auto minmax(320px, 1fr) auto;
+  gap: 12px;
+  padding: 14px;
+}
+
+.topbar,
+.controls,
+.players {
+  width: min(940px, 100%);
+  margin: 0 auto;
+}
+
+.topbar,
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(248, 250, 252, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.match-title {
+  display: grid;
+  gap: 2px;
+  text-align: center;
+}
+
+.match-title span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.icon-btn,
+.small-btn,
+.roll-btn {
+  min-width: 44px;
+  min-height: 40px;
+  padding: 0 14px;
+  color: #fff;
+  background: #26374f;
+  border-radius: 8px;
+}
+
+.roll-btn {
+  min-width: 110px;
+  background: #111827;
+  font-weight: 700;
+}
+
+.dice {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  color: #111827;
+  background: #fff;
+  border: 3px solid #111827;
+  border-radius: 8px;
+  font-size: 30px;
+  font-weight: 800;
+  user-select: none;
+}
+
+.dice.is-rolling {
+  animation: diceShake 0.45s ease;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: rgba(10, 16, 28, 0.68);
+}
+
+.modal.is-open {
+  display: grid;
+}
+
+.modal-card {
+  width: min(360px, 100%);
+  padding: 24px;
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+===== css/board.css =====
+.players {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.player-card {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  background: rgba(248, 250, 252, 0.94);
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.player-card.is-active {
+  border-color: currentColor;
+}
+
+.player-card strong {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.score {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.board-wrap {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  width: min(92vw, 70vh, 720px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #fff;
+  border: 4px solid #111827;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d9dee8;
+  background: #fff;
+}
+
+.yard {
+  border: 0;
+}
+
+.yard.red,
+.home.red,
+.path.red {
+  background: rgba(227, 62, 79, 0.9);
+}
+
+.yard.blue,
+.home.blue,
+.path.blue {
+  background: rgba(39, 115, 223, 0.9);
+}
+
+.yard.green,
+.home.green,
+.path.green {
+  background: rgba(34, 166, 106, 0.9);
+}
+
+.yard.yellow,
+.home.yellow,
+.path.yellow {
+  background: rgba(242, 182, 50, 0.95);
+}
+
+.safe::after {
+  content: "★";
+  color: #111827;
+  font-size: clamp(11px, 2vw, 20px);
+}
+
+.center {
+  background: conic-gradient(var(--yellow) 0 25%, var(--blue) 0 50%, var(--red) 0 75%, var(--green) 0);
+  border: 0;
+}
+
+.nest {
+  width: 74%;
+  height: 74%;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 50%;
+}
+
+.token-stack {
+  position: absolute;
+  inset: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.token {
+  width: clamp(18px, 4.1vw, 34px);
+  height: clamp(18px, 4.1vw, 34px);
+  pointer-events: auto;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.token.red {
+  background: var(--red);
+}
+
+.token.blue {
+  background: var(--blue);
+}
+
+.token.green {
+  background: var(--green);
+}
+
+.token.yellow {
+  background: var(--yellow);
+}
+
+.token.can-move {
+  transform: translateY(-3px) scale(1.08);
+  filter: drop-shadow(0 0 7px #fff);
+}
+
+===== css/menu.css =====
+.menu-screen {
+  place-items: center;
+  padding: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(430px, 100%);
+  color: #fff;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: conic-gradient(var(--red), var(--yellow), var(--green), var(--blue), var(--red));
+  border: 4px solid #fff;
+  border-radius: 8px;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 40px;
+}
+
+.brand p {
+  margin: 3px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.menu-panel {
+  display: grid;
+  gap: 12px;
+  width: min(430px, 100%);
+  margin-top: 18px;
+  padding: 18px;
+  background: rgba(248, 250, 252, 0.94);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.menu-btn {
+  min-height: 52px;
+  padding: 0 18px;
+  color: #fff;
+  background: #26374f;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.menu-btn.primary {
+  background: #d92f45;
+}
+
+.select-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 6px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.select-row select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+===== css/animation.css =====
+@keyframes diceShake {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(12deg) scale(1.08);
+  }
+  55% {
+    transform: rotate(-14deg) scale(1.05);
+  }
+}
+
+.token.just-moved {
+  animation: pop 0.26s ease;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.22);
+  }
+}
+
+===== css/responsive.css =====
+@media (max-width: 760px) {
+  .game-screen {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .players {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .player-card {
+    padding: 8px;
+  }
+
+  .board {
+    width: min(96vw, 62vh);
+  }
+
+  .controls {
+    position: sticky;
+    bottom: 8px;
+  }
+}
+
+===== server/server.js =====
+import express from "express";
+import http from "node:http";
+import cors from "cors";
+import { Server } from "socket.io";
+import { registerSocketHandlers } from "./socket.js";
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+app.use(cors());
+app.use(express.json());
+
+app.get("/", (_req, res) => {
+  res.json({ ok: true, name: "Ludgo server" });
+});
+
+registerSocketHandlers(io);
+
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log(`Ludgo server running on ${port}`);
+});
+
+===== server/package.json =====
+{
+  "name": "ludgo-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
+
+===== server/socket.js =====
+const rooms = new Map();
+
+export function registerSocketHandlers(io) {
+  io.on("connection", (socket) => {
+    socket.on("room:create", ({ name } = {}, callback) => {
+      const roomId = makeRoomId();
+      rooms.set(roomId, {
+        id: roomId,
+        host: socket.id,
+        players: [{ id: socket.id, name: name || "Player 1" }],
+        state: null,
+      });
+      socket.join(roomId);
+      callback?.({ ok: true, roomId });
+    });
+
+    socket.on("room:join", ({ roomId, name } = {}, callback) => {
+      const room = rooms.get(roomId);
+      if (!room) return callback?.({ ok: false, error: "Room not found" });
+      if (room.players.length >= 4) return callback?.({ ok: false, error: "Room is full" });
+
+      room.players.push({ id: socket.id, name: name || `Player ${room.players.length + 1}` });
+      socket.join(roomId);
+      io.to(roomId).emit("room:update", publicRoom(room));
+      callback?.({ ok: true, room: publicRoom(room) });
+    });
+
+    socket.on("game:state", ({ roomId, state } = {}) => {
+      const room = rooms.get(roomId);
+      if (!room || !room.players.some((player) => player.id === socket.id)) return;
+      room.state = state;
+      socket.to(roomId).emit("game:state", state);
+    });
+
+    socket.on("disconnect", () => {
+      for (const [roomId, room] of rooms) {
+        room.players = room.players.filter((player) => player.id !== socket.id);
+        if (!room.players.length) {
+          rooms.delete(roomId);
+        } else {
+          if (room.host === socket.id) room.host = room.players[0].id;
+          io.to(roomId).emit("room:update", publicRoom(room));
+        }
+      }
+    });
+  });
+}
+
+function publicRoom(room) {
+  return {
+    id: room.id,
+    host: room.host,
+    players: room.players,
+    state: room.state,
+  };
+}
+
+function makeRoomId() {
+  return Math.random().toString(36).slice(2, 8).toUpperCase();
+}
