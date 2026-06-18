@@ -1,1 +1,36 @@
+# Ludgo
+
+A GitHub Pages friendly Ludo game built with plain HTML, CSS, and JavaScript modules.
+
+## Run
+
+Open `index.html` from a static server, or publish this folder with GitHub Pages.
+
+For local testing:
+
+```bash
+npx serve .
+```
+
+## Optional Online Server
+
+GitHub Pages cannot run Node.js servers. If you want online rooms, deploy the `server/`
+folder separately on Render, Railway, Fly.io, or a VPS.
+
+```bash
+cd server
+npm install
+npm start
+```
+
+## Files
+
+- `index.html` loads the app shell.
+- `script.js` starts the game.
+- `js/game.js` controls the match.
+- `js/rules.js`, `js/movement.js`, and `js/board.js` contain the Ludo logic.
+- `css/*.css` handles layout, board, menu, animation, and mobile styling.
+
+Sound/image assets are optional. If the files under `assets/` are missing, the game still works with CSS-rendered board, dice, and tokens.
+
 
